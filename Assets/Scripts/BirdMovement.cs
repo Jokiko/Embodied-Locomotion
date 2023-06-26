@@ -7,7 +7,8 @@ public class BirdMovement : MonoBehaviour
 {
     private FaceTracker faceTracker;
 
-    public float movementSpeed = 1f;
+    public float initialMovementSpeed = 1f;
+    private float movementSpeed;
 
     OpenCVForUnity.CoreModule.Rect lastLegitRect;
 
@@ -34,7 +35,7 @@ public class BirdMovement : MonoBehaviour
         {
             OpenCVForUnity.CoreModule.Rect latestRect = faceTracker.GetLatestFaceRect();
             
-            //Debug.Log("Latest rectangle position: " + latestRect.y);
+            //Debug.Log("Latest rectangle position: " + latestRect.width +", "+latestRect.height);
            
             if (latestRect != null)
             {
@@ -51,12 +52,17 @@ public class BirdMovement : MonoBehaviour
                 float targetX = latestRect.x;
                 float targetY = latestRect.y;
 
+                movementSpeed = initialMovementSpeed * (latestRect.width/250f) * (latestRect.width/250f) ;
+
+                Debug.Log("MovementSpeed: "+movementSpeed);
+
+
                 // Basierend auf getrackten Koordinaten des Gesichts Werte mappen
                 float mappedX = Mathf.Lerp(xMapMin, xMapMax, Mathf.InverseLerp(xRangeMin, xRangeMax, targetX)) * -1;
                 //Debug.Log(mappedX);  
                 float mappedY = Mathf.Lerp(yMapMin, yMapMax, Mathf.InverseLerp(yRangeMin, yRangeMax, targetY)) * -1;             
 
-                Vector3 movement = new Vector3(mappedX, mappedY, movementSpeed); 
+                Vector3 movement = new Vector3(mappedX, mappedY, initialMovementSpeed); 
                 movement = movement.normalized * movementSpeed * Time.deltaTime;
 
                 transform.Translate(movement);
