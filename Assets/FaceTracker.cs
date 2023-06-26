@@ -13,6 +13,7 @@ public class FaceTracker : MonoBehaviour
     private CascadeClassifier cascade;
     private MatOfRect faces;
     private Texture2D texture;
+    OpenCVForUnity.CoreModule.Rect[] rects;
     private Mat rgbaMat;
     private Mat grayMat;
 
@@ -55,12 +56,12 @@ public class FaceTracker : MonoBehaviour
         //extract faces
         cascade.detectMultiScale(grayMat, faces);
         //store faces in array
-        OpenCVForUnity.CoreModule.Rect[] rects = faces.toArray();
+        rects = faces.toArray();
         
         //draw rectangle over all faces
         for (int i = 0; i < rects.Length; i++)
         {
-            Debug.Log("detect faces " + rects[i]);
+            //Debug.Log("detect faces " + rects[i]);
             Imgproc.rectangle(rgbaMat, new Point(rects[i].x, rects[i].y), new Point(rects[i].x + rects[i].width, rects[i].y + rects[i].height), new Scalar(255, 0, 0, 255), 2);
         }
         //convert rgb mat back to texture
@@ -68,5 +69,15 @@ public class FaceTracker : MonoBehaviour
 
         //set rawimage texture
         this.GetComponent<RawImage>().texture = texture;
+    }
+
+    public OpenCVForUnity.CoreModule.Rect GetLatestFaceRect()
+    {
+        if (rects != null && rects.Length > 0)
+        {
+            return rects[rects.Length - 1];
+        }
+
+        return new OpenCVForUnity.CoreModule.Rect();
     }
 }
