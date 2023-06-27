@@ -26,7 +26,7 @@ public class CameraMovement : MonoBehaviour
         originalRotation = transform.rotation;*/
 
         target = GameObject.Find("Sparrow").transform;
-        firstPersonOffset = new Vector3(0f, 0f, 0f);
+        firstPersonOffset = new Vector3(0f, 0f, 1f);
         thirdPersonOffset = new Vector3(0f, height, distance);
     }
 
