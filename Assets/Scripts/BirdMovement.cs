@@ -12,10 +12,12 @@ public class BirdMovement : MonoBehaviour
     private Text textComponent;
     private float collisions = 0f;
 
-    public float initialMovementSpeed = 1f;
+    public float initialMovementSpeed = 1.5f;
     private float movementSpeed;
 
-    private float maxHeight = 10f;
+    private float maxHeight = 5f;
+    private float maxLeft = -15f;
+    private float maxRight = 15f;
 
     private Rigidbody rb;
 
@@ -88,7 +90,15 @@ public class BirdMovement : MonoBehaviour
                 {
                     movement.y = Mathf.Min(maxHeight - transform.position.y, 0f); 
                 }
-
+                //verhindern, dass der Vogel rechts rausfliegen kann
+                if (transform.position.x + movement.x < maxLeft)
+                {
+                    movement.x = Mathf.Max(maxLeft - transform.position.x, maxLeft);
+                }
+                else if(transform.position.x + movement.x > maxRight)
+                {
+                    movement.x = Mathf.Min(maxRight - transform.position.x, maxRight); 
+                }
                 transform.Translate(movement);
             }
 
