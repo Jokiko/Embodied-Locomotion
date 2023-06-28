@@ -21,6 +21,8 @@ public class BirdMovement : MonoBehaviour
     private float maxLeft = -15f;
     private float maxRight = 15f;
 
+    private float maxDepth= 84.5f;
+
     private Rigidbody rb;
 
     OpenCVForUnity.CoreModule.Rect lastLegitRect;
@@ -57,6 +59,7 @@ public class BirdMovement : MonoBehaviour
             xMapMax = 8f;
             yMapMin = -8f;  
             yMapMax = 8f;
+            maxDepth = 1780f;
         }
     }
 
@@ -112,7 +115,10 @@ public class BirdMovement : MonoBehaviour
                 {
                     movement.x = Mathf.Min(maxRight - transform.position.x, maxRight); 
                 }
-                transform.Translate(movement);
+                //Ende erreicht?
+                if(transform.position.z < maxDepth){
+                    transform.Translate(movement);
+                }
             }
 
         }
