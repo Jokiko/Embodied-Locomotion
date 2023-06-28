@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using OpenCVForUnity.CoreModule;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BirdMovement : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class BirdMovement : MonoBehaviour
     public float initialMovementSpeed = 1.5f;
     private float movementSpeed;
 
+    private float minHeight = 0f;
     private float maxHeight = 5f;
     private float maxLeft = -15f;
     private float maxRight = 15f;
@@ -41,6 +43,21 @@ public class BirdMovement : MonoBehaviour
         textComponent = collisionCounter.GetComponent<Text>();
         textComponent.text = "Anzahl Kollisionen: 0";
         rb = GetComponent<Rigidbody>();
+
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        //Zylinderparcour ist deutlich groesser skaliert, daher werden Werte angepasst
+        if (currentSceneName == "Parcour_Test")
+        {
+            initialMovementSpeed = 10f;
+            maxHeight = 40f;
+            minHeight = -40f;
+            maxLeft = -40f;
+            maxRight = 40f;
+            xMapMin = -8f;
+            xMapMax = 8f;
+            yMapMin = -8f;  
+            yMapMax = 8f;
+        }
     }
 
     // Update is called once per frame
@@ -69,21 +86,17 @@ public class BirdMovement : MonoBehaviour
 
                 movementSpeed = initialMovementSpeed * (latestRect.width/250f) * (latestRect.width/250f) ;
 
-                //Debug.Log("MovementSpeed: "+movementSpeed);
-
-
                 // Basierend auf getrackten Koordinaten des Gesichts Werte mappen
-                float mappedX = Mathf.Lerp(xMapMin, xMapMax, Mathf.InverseLerp(xRangeMin, xRangeMax, targetX)) * -1;
-                //Debug.Log(mappedX);  
+                float mappedX = Mathf.Lerp(xMapMin, xMapMax, Mathf.InverseLerp(xRangeMin, xRangeMax, targetX)) * -1;  
                 float mappedY = Mathf.Lerp(yMapMin, yMapMax, Mathf.InverseLerp(yRangeMin, yRangeMax, targetY)) * -1;             
                 
                 Vector3 movement = new Vector3(mappedX, mappedY, initialMovementSpeed); 
                 movement = movement.normalized * movementSpeed * Time.deltaTime;
 
-                //verhindern,d ass der Vogel in den Boden fliegt
-                if (transform.position.y + movement.y < 0f)
+                //verhindern, dass der Vogel in den Boden fliegt
+                if (transform.position.y + movement.y < minHeight)
                 {
-                    movement.y = Mathf.Max(0f - transform.position.y, 0f); 
+                    movement.y = Mathf.Max(minHeight - transform.position.y, minHeight); 
                 }
                 //verhindern, dass der Vogel ueber die maximalhohe fliegt
                 else if (transform.position.y + movement.y > maxHeight)
@@ -115,4 +128,5 @@ public class BirdMovement : MonoBehaviour
         textComponent.text = "Anzahl Kollisionen: "+collisions;
     } 
 }
+
 }

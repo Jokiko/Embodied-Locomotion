@@ -19,10 +19,8 @@ Die Geschwindigkeit des Vogels lässt sich steuern, in dem man näher an die Kam
 Das Interface zum Steuern des Vogels bietet zwei Degrees of Freedom der Transformation und kein Degree of Freedom der Rotation.
 Bei diesen zwei Degrees of Freedom handelt es sich um die x- und die y-Achse, die jeweils mit der Position des erkannten Gesichts gesteuert wird.
 Das Facetracking-Skript bietet theoretisch die Möglichkeit, durch Erkennen der Größe des getrackten Gesichts, auch den dritten Degree fo Freedom der Transformation und somit die z-Achse zu steuern.
-Wir hatten uns dagegen entschieden, da es einerseits mühselig wäre, sich durchgehend nach vorne zu lehnen, um nach vorne zu fliegen, 
-und es andereseits für einen Parcour in Form eines langen Korridors nicht nötig ist, nach hinten in die z-Achse fliegen zu können.
-Jedoch hatten wir uns dazu entschieden, diese Steuerungsoption nicht vollkommen ungenutzt zu lassen, weswegen sich damit stattdessen die Geschwindigkeit manipulieren lässt,
-mit welcher der Vogel nach vorne in die z-Achse fliegt.
+Wir hatten uns dagegen entschieden, da es einerseits mühselig wäre, sich durchgehend nach vorne zu lehnen, um nach vorne zu fliegen, und es andereseits für einen Parcour in Form eines langen Korridors nicht nötig ist, nach hinten in die z-Achse fliegen zu können.
+Jedoch hatten wir uns dazu entschieden, diese Steuerungsoption nicht vollkommen ungenutzt zu lassen, weswegen sich damit stattdessen die Geschwindigkeit manipulieren lässt, mit welcher der Vogel nach vorne in die z-Achse fliegt.
 Da das Facetracking-Skript nicht über die Möglichkeit verfügt, die Neigung eines Gesichts zu erkennen (stattdessen bei ausreichender Neigung sogar gar kein Gesicht mehr erkennt),
 hatten wir uns dazu entschlossen, keinerlei Degrees of Freedom der Rotation zuzulassen. Angesichts dieser Einschränkungen haben wir uns auf Parcours in Form von langen Korridoren geeinigt, sodass der Vogel gar nicht erst gedreht werden muss.
 Um sicher zu gehen, dass der Vogel nicht in der Luft stehen bleibt, sollte zwischenzeitlich kein Gesicht erkannt werden, wird in solchen Fällen stets die Position des zuletzt erkannten Gesichts verwendet, um die Flugrichtung und -geschwindigkeit des Vogels zu bestimmen.
